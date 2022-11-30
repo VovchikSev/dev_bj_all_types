@@ -16,17 +16,20 @@ class poke(object):
         self.__Number__ = numbers
 
 
-# 初始桌面
+# 初始桌面 Начальный рабочий стол, окно наверное имелось в виду.
 win = tk.Tk()
 win.geometry('800x600')
-win.title('21点')
+win.title('21点')  # 21 час.. придумать заголовок покрасивее
 image_back = tk.PhotoImage(file='./images/rear.gif')
 canvas = tk.Canvas(win, bg='green', width=800, height=600)
-canvas.create_image(390, 250, image=image_back)  # 充当牌组显示一个牌的背面
+# 充当牌组显示一个牌的背面 Действуйте как колода для отображения обратной стороны карты
+canvas.create_image(390, 250, image=image_back)
 canvas.pack()
-# 初始牌组
-types = [1, 2, 3, 4]
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+# 初始牌组 Начальная колода
+types = [1, 2, 3, 4]  # масти
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]  # достоинства карт
+# такой метод применен для работы с изображениями
+# изображения имеют имена (номер масти)_(номер/достоинство карты).gif
 player = []
 computer = []
 cards = []
@@ -38,11 +41,11 @@ for t in types:
     for n in numbers:
         po = poke(t, n)
         cards.append(po)
-# 随机打乱
+# 随机打乱 Случайное разрушение:) перемешать колоду по нашему.
 ra.shuffle(cards)
 
 
-# 求和
+# 求和 просить мира... Создание чего? разобраться в контексте.
 def countNum(l):
     count = 0
     for b in l:
@@ -52,9 +55,9 @@ def countNum(l):
     return count
 
 
-# 抽牌
+# 抽牌 Вытягивать карты, наверное имелось в виду выбор карты.
 def getpock():
-    # 玩家抽牌
+    # 玩家抽牌 Игроки берут карты
     global point
     i = 0
     player.append(cards[point])
@@ -68,19 +71,21 @@ def getpock():
         canvas.pack()
         i = i + 1
     win.update()
-    # 判断是否爆牌
+    # 判断是否爆牌 Определите, является ли карта взрывоопасной...
+    # Это чего, не победа или проигрыш по карте произошел
     count = countNum(player)
     if count >= 21:
         tk.messagebox.showinfo('提示', 'player牌炸了')
         win.destroy()
         return
-    # 电脑判断其牌组是否应该抽牌
+    # 电脑判断其牌组是否应该抽牌 Компьютер определяет, следует ли брать карты из его колоды.
+    # Наверное рассчитывает брать ему еще карту или нет?
 
-    if 21 - countNum(computer) <= 5:
+    if 21 - countNum(computer) <= 5:  # да именно расчет брать карту, если на руках >= 16 не брать.
         stop()
         return
 
-    # 电脑抽牌
+    # 电脑抽牌 Компьютерная графика
     i = 0
     computer.append(cards[point])
     global image_pockback
@@ -94,10 +99,10 @@ def getpock():
     win.update()
     point = point + 1
     print(countNum(computer))
-    # 判断是否爆牌
+    # 判断是否爆牌 Определите, является ли карта взрывоопасной...
     count = countNum(computer)
     if count >= 21:
-        tk.messagebox.showinfo('提示', '电脑牌炸了')
+        tk.messagebox.showinfo('提示', '电脑牌炸了')  # "Подсказка", "Компьютерная карта взорвалась"
         win.destroy()
 
 
@@ -105,21 +110,20 @@ def stop():
     count_player = countNum(player)
     count_computer = countNum(computer)
     if count_computer > count_player:
-        tk.messagebox.showinfo('提示', '电脑赢了')
+        tk.messagebox.showinfo('提示', '电脑赢了')  # "Подсказка", "Компьютер выиграл"
         win.destroy()
     if count_computer < count_player:
-        tk.messagebox.showinfo('提示', '你赢了')
+        tk.messagebox.showinfo('提示', '你赢了')  # "Подсказка", "Ты выиграл"
         win.destroy()
     if count_computer == count_player:
-        tk.messagebox.showinfo('提示', '平局')
+        tk.messagebox.showinfo('提示', '平局')  # "Подсказать", "нарисовать"
         win.destroy()
 
 
-# 放置按钮
+# 放置按钮  Кнопка размещения
 # image=tk.PhotoImage(file='./images/2-1.gif')
-button = tk.Button(canvas, text='抽牌', width=10, command=getpock)
+button = tk.Button(canvas, text='抽牌', width=10, command=getpock)  # Вытягивать карты
 button.place(x=310, y=500, anchor='nw')
-button1 = tk.Button(canvas, width=10, text='停牌', command=stop)
+button1 = tk.Button(canvas, width=10, text='停牌', command=stop)  # Приостановление торговли
 button1.place(x=410, y=500, anchor='nw')
 win.mainloop()
-
