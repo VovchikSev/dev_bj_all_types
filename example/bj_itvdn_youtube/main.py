@@ -4,8 +4,11 @@
 # github https://github.com/django-group/blackjack_intensive
 
 from Deck import Deck
-
+from Game import Game
 
 if __name__ == "__main__":
-    d = Deck()
-    print(d.cards[0])
+    # d = Deck()
+    # print(d.cards[0])
+    g = Game()
+    g.start_game()
+    
